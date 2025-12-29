@@ -137,11 +137,16 @@
                         <button onclick="toggleVisuals()" class="close-section-btn">✕</button>
                     </div>
                     <div class="visuals-content">
-                        <img id="reliefImage" src="" alt="Calming visual" class="relief-rotating-image">
-                        <p id="reliefCaption" class="relief-image-caption">Take a deep breath.</p>
+                        <div id="imageContentArea" style="display: none;">
+                            <img id="reliefImage" src="" alt="Calming visual" class="relief-rotating-image">
+                            <p id="reliefCaption" class="relief-image-caption">Take a deep breath.</p>
+                            <p id="imageCounter" style="text-align: center; color: #666; font-size: 14px; margin: 10px 0;">Image 1 of 20</p>
+                        </div>
                         <div class="visual-controls">
-                            <button onclick="startImageRotation()" class="dashboard-btn secondary-btn">▶️ Start</button>
-                            <button onclick="stopImageRotation()" class="dashboard-btn secondary-btn">⏸️ Stop</button>
+                            <button onclick="startImageRotation()" id="startImagesBtn" class="dashboard-btn secondary-btn">▶️ Auto Play</button>
+                            <button onclick="stopImageRotation()" id="stopImagesBtn" class="dashboard-btn secondary-btn" style="display: none;">⏸️ Stop Auto</button>
+                            <button onclick="previousImage()" class="dashboard-btn secondary-btn">◀️ Previous</button>
+                            <button onclick="nextImage()" class="dashboard-btn secondary-btn">Next ▶️</button>
                         </div>
                     </div>
                 </div>

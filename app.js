@@ -16,7 +16,7 @@ const reliefImages = [
     { src: 'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800&h=600&fit=crop', caption: 'Lavender fields promote relaxation.' },
     { src: 'https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800&h=600&fit=crop', caption: 'Green valleys soothe the soul.' },
     { src: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800&h=600&fit=crop', caption: 'Autumn leaves bring peaceful change.' },
-    { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop', caption: 'Snow-covered peaks radiate purity.' },
+    { src: 'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=800&h=600&fit=crop', caption: 'Snow-covered peaks radiate purity.' },
     { src: 'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800&h=600&fit=crop', caption: 'Waterfall sounds calm the mind.' },
     { src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop', caption: 'Nature trail leads to inner peace.' },
     { src: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&h=600&fit=crop', caption: 'Rolling hills create harmony.' },
@@ -437,6 +437,7 @@ function startImageRotation() {
 function displayReliefImage() {
     const imgElement = document.getElementById('reliefImage');
     const captionElement = document.getElementById('reliefCaption');
+    const counterElement = document.getElementById('imageCounter');
     const currentImage = reliefImages[currentImageIndex];
     
     // Fade out effect
@@ -445,9 +446,25 @@ function displayReliefImage() {
     setTimeout(() => {
         imgElement.src = currentImage.src;
         captionElement.textContent = currentImage.caption;
+        // Update counter
+        if (counterElement) {
+            counterElement.textContent = `Image ${currentImageIndex + 1} of ${reliefImages.length}`;
+        }
         // Fade in effect
         imgElement.style.opacity = '1';
     }, 500);
+}
+
+// Navigate to previous image
+function previousImage() {
+    currentImageIndex = (currentImageIndex - 1 + reliefImages.length) % reliefImages.length;
+    displayReliefImage();
+}
+
+// Navigate to next image
+function nextImage() {
+    currentImageIndex = (currentImageIndex + 1) % reliefImages.length;
+    displayReliefImage();
 }
 
 // Stop image rotation
