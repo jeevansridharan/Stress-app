@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <radialGradient id="nightSky" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f0f1e;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Night sky -->
+  <rect width="800" height="500" fill="url(#nightSky)"/>
+  
+  <!-- Moon -->
+  <circle cx="650" cy="120" r="60" fill="#F4F4F4" opacity="0.9"/>
+  <circle cx="665" cy="115" r="55" fill="#1a1a2e" opacity="0.3"/>
+  
+  <!-- Stars -->
+  <circle cx="100" cy="80" r="2" fill="#FFF" opacity="0.9"/>
+  <circle cx="150" cy="120" r="1.5" fill="#FFF" opacity="0.8"/>
+  <circle cx="200" cy="60" r="2.5" fill="#FFF" opacity="1"/>
+  <circle cx="250" cy="140" r="1" fill="#FFF" opacity="0.7"/>
+  <circle cx="300" cy="90" r="2" fill="#FFF" opacity="0.9"/>
+  <circle cx="350" cy="150" r="1.5" fill="#FFF" opacity="0.8"/>
+  <circle cx="400" cy="70" r="2.5" fill="#FFF" opacity="1"/>
+  <circle cx="450" cy="110" r="1" fill="#FFF" opacity="0.7"/>
+  <circle cx="500" cy="50" r="2" fill="#FFF" opacity="0.9"/>
+  <circle cx="550" cy="180" r="1.5" fill="#FFF" opacity="0.8"/>
+  <circle cx="120" cy="200" r="1" fill="#FFF" opacity="0.7"/>
+  <circle cx="280" cy="220" r="2" fill="#FFF" opacity="0.9"/>
+  <circle cx="380" cy="240" r="1.5" fill="#FFF" opacity="0.8"/>
+  <circle cx="480" cy="200" r="1" fill="#FFF" opacity="0.7"/>
+  <circle cx="580" cy="230" r="2" fill="#FFF" opacity="0.9"/>
+  <circle cx="680" cy="210" r="1.5" fill="#FFF" opacity="0.8"/>
+  <circle cx="750" cy="180" r="1" fill="#FFF" opacity="0.7"/>
+  
+  <!-- Shooting star -->
+  <line x1="500" y1="140" x2="580" y2="180" stroke="#FFF" stroke-width="2" opacity="0.6"/>
+  <line x1="500" y1="140" x2="570" y2="175" stroke="#FFD700" stroke-width="1" opacity="0.8"/>
+  
+  <!-- Horizon silhouette -->
+  <path d="M 0 400 Q 100 380 200 390 T 400 385 T 600 395 T 800 390 L 800 500 L 0 500 Z" fill="#0a0a15" opacity="0.8"/>
+  
+  <!-- Tree silhouettes -->
+  <polygon points="150,350 130,400 170,400" fill="#000" opacity="0.6"/>
+  <rect x="145" y="400" width="10" height="100" fill="#000" opacity="0.6"/>
+  
+  <polygon points="600,330 570,400 630,400" fill="#000" opacity="0.7"/>
+  <rect x="595" y="400" width="10" height="100" fill="#000" opacity="0.7"/>
+</svg>

@@ -1,6 +1,32 @@
 // Store selected mood
 let selectedMood = null;
 let currentStressData = null;
+let imageRotationInterval = null;
+
+// Stress relief images array - Real calming photos
+const reliefImages = [
+    { src: 'https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800&h=600&fit=crop', caption: 'Peaceful ocean sunset brings tranquility.' },
+    { src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop', caption: 'Forest path invites peaceful walks.' },
+    { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop', caption: 'Majestic mountains inspire calmness.' },
+    { src: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800&h=600&fit=crop', caption: 'Serene lake reflects inner peace.' },
+    { src: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800&h=600&fit=crop', caption: 'Flower fields bring joy and calm.' },
+    { src: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=600&fit=crop', caption: 'Mountain peaks reach for serenity.' },
+    { src: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=800&h=600&fit=crop', caption: 'Misty forest creates peaceful atmosphere.' },
+    { src: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop', caption: 'Beach waves wash away worries.' },
+    { src: 'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=800&h=600&fit=crop', caption: 'Lavender fields promote relaxation.' },
+    { src: 'https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800&h=600&fit=crop', caption: 'Green valleys soothe the soul.' },
+    { src: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800&h=600&fit=crop', caption: 'Autumn leaves bring peaceful change.' },
+    { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop', caption: 'Snow-covered peaks radiate purity.' },
+    { src: 'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800&h=600&fit=crop', caption: 'Waterfall sounds calm the mind.' },
+    { src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop', caption: 'Nature trail leads to inner peace.' },
+    { src: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&h=600&fit=crop', caption: 'Rolling hills create harmony.' },
+    { src: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800&h=600&fit=crop', caption: 'Tropical paradise brings serenity.' },
+    { src: 'https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=800&h=600&fit=crop', caption: 'Calm waters reflect tranquility.' },
+    { src: 'https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?w=800&h=600&fit=crop', caption: 'Misty mountains embrace stillness.' },
+    { src: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&h=600&fit=crop', caption: 'Cherry blossoms symbolize renewal.' },
+    { src: 'https://images.unsplash.com/photo-1445264718952-f95a5a68e8a0?w=800&h=600&fit=crop', caption: 'Zen garden promotes mindfulness.' }
+];
+let currentImageIndex = 0;
 
 // Initialize history from localStorage
 function getStressHistory() {
@@ -168,30 +194,280 @@ function showResult(stressLevel) {
     document.getElementById('resultPage').classList.add('active');
     
     const resultDiv = document.getElementById('stressResult');
-    const reliefSection = document.getElementById('reliefSection');
-    const suggestionsDiv = document.getElementById('personalizedSuggestions');
+    const badge = document.getElementById('stressLevelBadge');
+    
+    console.log('Stress Level:', stressLevel); // Debug log
+    
+    // Update badge
+    badge.className = 'stress-badge';
     
     // Display stress level
     if (stressLevel === 'low') {
-        resultDiv.innerHTML = '😊 Your stress level is: LOW<br><small>You seem to be managing well!</small>';
+        resultDiv.innerHTML = '😊 Your stress level is: <strong>LOW</strong><br><small>You seem to be managing well! Keep up the good work.</small>';
         resultDiv.className = 'stress-result stress-low';
-        reliefSection.style.display = 'none';
-        suggestionsDiv.style.display = 'none';
+        badge.textContent = 'LOW STRESS';
+        badge.classList.add('badge-low');
     } else if (stressLevel === 'medium') {
-        resultDiv.innerHTML = '😐 Your stress level is: MEDIUM<br><small>Take a moment to relax</small>';
+        resultDiv.innerHTML = '😐 Your stress level is: <strong>MEDIUM</strong><br><small>Take a moment to relax and use the tools below.</small>';
         resultDiv.className = 'stress-result stress-medium';
-        reliefSection.style.display = 'block';
-        suggestionsDiv.style.display = 'block';
-        showPersonalizedSuggestions();
-        playCalm();
+        badge.textContent = 'MEDIUM STRESS';
+        badge.classList.add('badge-medium');
     } else {
-        resultDiv.innerHTML = '😰 Your stress level is: HIGH<br><small>Please take some time for yourself</small>';
+        resultDiv.innerHTML = '😰 Your stress level is: <strong>HIGH</strong><br><small>Please take time for self-care. Use the relief tools below.</small>';
         resultDiv.className = 'stress-result stress-high';
-        reliefSection.style.display = 'block';
-        suggestionsDiv.style.display = 'block';
-        showPersonalizedSuggestions();
-        playCalm();
+        badge.textContent = 'HIGH STRESS';
+        badge.classList.add('badge-high');
     }
+    
+    // Always show personalized suggestions for medium/high stress
+    if (stressLevel !== 'low') {
+        showPersonalizedSuggestions();
+    }
+}
+
+/* ============================================
+   DASHBOARD INTERACTIVE FEATURES
+   ============================================ */
+
+// Breathing Modal - Open/Close
+function openBreathingModal() {
+    document.getElementById('breathingModal').style.display = 'flex';
+}
+
+function closeBreathingModal() {
+    stopBreathingCycle();
+    document.getElementById('breathingModal').style.display = 'none';
+}
+
+// Breathing Animation Variables
+let breathingInterval = null;
+let breathingPhase = 0;
+
+// Start Breathing Cycle
+function startBreathingCycle() {
+    stopBreathingCycle(); // Clear any existing cycle
+    
+    const circle = document.getElementById('breathingCircleModal');
+    const text = document.getElementById('breathingText');
+    const instruction = document.getElementById('breathingInstruction');
+    const startBtn = document.getElementById('startBreathingModalBtn');
+    const stopBtn = document.getElementById('stopBreathingModalBtn');
+    
+    // Toggle buttons
+    startBtn.style.display = 'none';
+    stopBtn.style.display = 'inline-block';
+    
+    breathingPhase = 0;
+    
+    function breathingCycle() {
+        circle.className = 'breathing-circle-modal';
+        
+        if (breathingPhase === 0) {
+            // Breathe In - 4 seconds
+            circle.classList.add('breathe-in');
+            text.textContent = 'Breathe In';
+            instruction.textContent = 'Inhale deeply through your nose (4 seconds)';
+        } else if (breathingPhase === 1) {
+            // Hold - 4 seconds
+            circle.classList.add('hold');
+            text.textContent = 'Hold';
+            instruction.textContent = 'Hold your breath (4 seconds)';
+        } else if (breathingPhase === 2) {
+            // Breathe Out - 6 seconds
+            circle.classList.add('breathe-out');
+            text.textContent = 'Breathe Out';
+            instruction.textContent = 'Exhale slowly through your mouth (6 seconds)';
+        }
+        
+        breathingPhase = (breathingPhase + 1) % 3;
+    }
+    
+    // Start immediately
+    breathingCycle();
+    
+    // Set interval based on phase timing
+    let phaseIndex = 0;
+    const phaseDurations = [4000, 4000, 6000]; // Breathe In, Hold, Breathe Out
+    
+    function scheduleNext() {
+        breathingInterval = setTimeout(() => {
+            breathingCycle();
+            phaseIndex = (phaseIndex + 1) % 3;
+            scheduleNext();
+        }, phaseDurations[phaseIndex]);
+    }
+    
+    scheduleNext();
+}
+
+// Stop Breathing Cycle
+function stopBreathingCycle() {
+    if (breathingInterval) {
+        clearTimeout(breathingInterval);
+        breathingInterval = null;
+    }
+    
+    const circle = document.getElementById('breathingCircleModal');
+    const text = document.getElementById('breathingText');
+    const instruction = document.getElementById('breathingInstruction');
+    const startBtn = document.getElementById('startBreathingModalBtn');
+    const stopBtn = document.getElementById('stopBreathingModalBtn');
+    
+    if (circle) {
+        circle.className = 'breathing-circle-modal';
+        text.textContent = 'Ready';
+        instruction.textContent = 'Click Start to begin';
+    }
+    
+    if (startBtn) startBtn.style.display = 'inline-block';
+    if (stopBtn) stopBtn.style.display = 'none';
+}
+
+// Music Toggle
+let isMusicPlaying = false;
+let currentAudioIndex = 0;
+const audioTracks = [
+    { id: 'calmAudio1', name: 'Relaxing Melody' },
+    { id: 'calmAudio2', name: 'Nature Sounds' },
+    { id: 'calmAudio3', name: 'Slow Motion' },
+    { id: 'calmAudio4', name: 'Sunny Day' },
+    { id: 'calmAudio5', name: 'Piano Moment' }
+];
+
+function toggleMusic() {
+    const currentAudio = document.getElementById(audioTracks[currentAudioIndex].id);
+    const btn = document.getElementById('musicToggleBtn');
+    
+    if (isMusicPlaying) {
+        currentAudio.pause();
+        btn.textContent = '▶️ Play Music';
+        btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        isMusicPlaying = false;
+    } else {
+        currentAudio.play();
+        btn.textContent = `⏸️ ${audioTracks[currentAudioIndex].name}`;
+        btn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+        isMusicPlaying = true;
+    }
+}
+
+// Change to next audio track
+function nextAudioTrack() {
+    // Pause current audio
+    const currentAudio = document.getElementById(audioTracks[currentAudioIndex].id);
+    const wasPlaying = isMusicPlaying;
+    
+    if (isMusicPlaying) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+    }
+    
+    // Move to next track
+    currentAudioIndex = (currentAudioIndex + 1) % audioTracks.length;
+    
+    // Update button text
+    const btn = document.getElementById('musicToggleBtn');
+    if (wasPlaying) {
+        const nextAudio = document.getElementById(audioTracks[currentAudioIndex].id);
+        nextAudio.play();
+        btn.textContent = `⏸️ ${audioTracks[currentAudioIndex].name}`;
+    } else {
+        btn.textContent = '▶️ Play Music';
+    }
+}
+        btn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+        isMusicPlaying = true;
+    
+
+
+// Visual Relief Toggle
+function toggleVisuals() {
+    const section = document.getElementById('visualsSection');
+    const btn = document.getElementById('visualToggleBtn');
+    
+    if (section.style.display === 'none') {
+        section.style.display = 'block';
+        btn.textContent = 'Hide Visuals';
+        displayReliefImage(); // Show first image
+    } else {
+        section.style.display = 'none';
+        btn.textContent = 'Show Visuals';
+        stopImageRotation();
+    }
+}
+
+// Tips Toggle
+function toggleTips() {
+    const section = document.getElementById('tipsSection');
+    const btn = document.getElementById('tipsToggleBtn');
+    
+    if (section.style.display === 'none') {
+        section.style.display = 'block';
+        btn.textContent = 'Hide Tips';
+    } else {
+        section.style.display = 'none';
+        btn.textContent = 'View Tips';
+    }
+}
+
+// Start image rotation for stress relief
+function startImageRotation() {
+    // Stop any existing rotation
+    stopImageRotation();
+    
+    // Show image content area
+    document.getElementById('imageContentArea').style.display = 'block';
+    
+    // Toggle buttons
+    document.getElementById('startImagesBtn').style.display = 'none';
+    document.getElementById('stopImagesBtn').style.display = 'inline-block';
+    
+    // Show first image immediately
+    currentImageIndex = 0;
+    displayReliefImage();
+    
+    // Rotate images every 45 seconds (between 30-60 seconds)
+    imageRotationInterval = setInterval(() => {
+        currentImageIndex = (currentImageIndex + 1) % reliefImages.length;
+        displayReliefImage();
+    }, 45000); // 45 seconds
+}
+
+// Display current relief image
+function displayReliefImage() {
+    const imgElement = document.getElementById('reliefImage');
+    const captionElement = document.getElementById('reliefCaption');
+    const currentImage = reliefImages[currentImageIndex];
+    
+    // Fade out effect
+    imgElement.style.opacity = '0';
+    
+    setTimeout(() => {
+        imgElement.src = currentImage.src;
+        captionElement.textContent = currentImage.caption;
+        // Fade in effect
+        imgElement.style.opacity = '1';
+    }, 500);
+}
+
+// Stop image rotation
+function stopImageRotation() {
+    if (imageRotationInterval) {
+        clearInterval(imageRotationInterval);
+        imageRotationInterval = null;
+    }
+    
+    // Hide image content area
+    const contentArea = document.getElementById('imageContentArea');
+    if (contentArea) {
+        contentArea.style.display = 'none';
+    }
+    
+    // Toggle buttons
+    const startBtn = document.getElementById('startImagesBtn');
+    const stopBtn = document.getElementById('stopImagesBtn');
+    if (startBtn) startBtn.style.display = 'inline-block';
+    if (stopBtn) stopBtn.style.display = 'none';
 }
 
 // Show personalized suggestions based on stress type
@@ -276,8 +552,7 @@ function playCalm() {
     // The user can click play when ready
 }
 
-// Breathing exercise timer variables
-let breathingInterval = null;
+// Breathing exercise timer variables (breathingInterval already declared at top)
 let breathingTimeout = null;
 
 // Start breathing exercise
@@ -372,13 +647,24 @@ function restart() {
     });
     document.getElementById('feelings').value = '';
     
-    // Stop audio if playing
-    const audio = document.getElementById('calmAudio');
-    audio.pause();
-    audio.currentTime = 0;
+    // Stop all active features - stop all audio tracks
+    audioTracks.forEach(track => {
+        const audio = document.getElementById(track.id);
+        if (audio) {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+    });
+    isMusicPlaying = false;
+    currentAudioIndex = 0;
     
-    // Stop breathing exercise
-    stopBreathing();
+    stopBreathingCycle();
+    stopImageRotation();
+    closeBreathingModal();
+    
+    // Reset UI
+    document.getElementById('visualsSection').style.display = 'none';
+    document.getElementById('tipsSection').style.display = 'none';
     
     // Go back to start page
     document.getElementById('resultPage').classList.remove('active');

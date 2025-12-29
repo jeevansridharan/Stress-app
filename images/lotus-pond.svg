@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="waterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4FC3F7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0277BD;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="lotusGrad" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#FFE4E1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFB6C1;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Water -->
+  <rect width="800" height="500" fill="url(#waterGrad)"/>
+  
+  <!-- Water ripples -->
+  <ellipse cx="200" cy="300" rx="80" ry="20" fill="none" stroke="#81D4FA" stroke-width="2" opacity="0.4"/>
+  <ellipse cx="200" cy="300" rx="100" ry="25" fill="none" stroke="#81D4FA" stroke-width="1.5" opacity="0.3"/>
+  <ellipse cx="500" cy="250" rx="70" ry="18" fill="none" stroke="#81D4FA" stroke-width="2" opacity="0.4"/>
+  <ellipse cx="500" cy="250" rx="90" ry="22" fill="none" stroke="#81D4FA" stroke-width="1.5" opacity="0.3"/>
+  
+  <!-- Lily pads -->
+  <ellipse cx="150" cy="350" rx="60" ry="40" fill="#2E7D32" opacity="0.8"/>
+  <path d="M 150 350 L 210 350" stroke="#1B5E20" stroke-width="2"/>
+  
+  <ellipse cx="400" cy="280" rx="70" ry="45" fill="#388E3C" opacity="0.8"/>
+  <path d="M 400 280 L 470 280" stroke="#1B5E20" stroke-width="2"/>
+  
+  <ellipse cx="600" cy="320" rx="65" ry="42" fill="#2E7D32" opacity="0.8"/>
+  <path d="M 600 320 L 665 320" stroke="#1B5E20" stroke-width="2"/>
+  
+  <!-- Lotus flowers -->
+  <!-- Lotus 1 -->
+  <g transform="translate(400, 250)">
+    <!-- Petals -->
+    <ellipse cx="0" cy="-25" rx="15" ry="25" fill="url(#lotusGrad)" transform="rotate(0)"/>
+    <ellipse cx="22" cy="-12" rx="15" ry="25" fill="url(#lotusGrad)" transform="rotate(45)"/>
+    <ellipse cx="22" cy="12" rx="15" ry="25" fill="url(#lotusGrad)" transform="rotate(90)"/>
+    <ellipse cx="0" cy="25" rx="15" ry="25" fill="url(#lotusGrad)" transform="rotate(135)"/>
+    <ellipse cx="-22" cy="12" rx="15" ry="25" fill="url(#lotusGrad)" transform="rotate(180)"/>
+    <ellipse cx="-22" cy="-12" rx="15" ry="25" fill="url(#lotusGrad)" transform="rotate(225)"/>
+    <!-- Center -->
+    <circle cx="0" cy="0" r="12" fill="#FFD54F"/>
+    <circle cx="-3" cy="-2" r="2" fill="#FFA726"/>
+    <circle cx="3" cy="-1" r="2" fill="#FFA726"/>
+    <circle cx="0" cy="3" r="2" fill="#FFA726"/>
+  </g>
+  
+  <!-- Lotus 2 (smaller) -->
+  <g transform="translate(150, 320)">
+    <ellipse cx="0" cy="-18" rx="12" ry="20" fill="#FFE4E1" transform="rotate(0)"/>
+    <ellipse cx="16" cy="-9" rx="12" ry="20" fill="#FFB6C1" transform="rotate(45)"/>
+    <ellipse cx="16" cy="9" rx="12" ry="20" fill="#FFE4E1" transform="rotate(90)"/>
+    <ellipse cx="0" cy="18" rx="12" ry="20" fill="#FFB6C1" transform="rotate(135)"/>
+    <ellipse cx="-16" cy="9" rx="12" ry="20" fill="#FFE4E1" transform="rotate(180)"/>
+    <ellipse cx="-16" cy="-9" rx="12" ry="20" fill="#FFB6C1" transform="rotate(225)"/>
+    <circle cx="0" cy="0" r="10" fill="#FFD54F"/>
+  </g>
+  
+  <!-- Lotus 3 (smaller) -->
+  <g transform="translate(600, 290)">
+    <ellipse cx="0" cy="-18" rx="12" ry="20" fill="#FFB6C1" transform="rotate(0)"/>
+    <ellipse cx="16" cy="-9" rx="12" ry="20" fill="#FFE4E1" transform="rotate(45)"/>
+    <ellipse cx="16" cy="9" rx="12" ry="20" fill="#FFB6C1" transform="rotate(90)"/>
+    <ellipse cx="0" cy="18" rx="12" ry="20" fill="#FFE4E1" transform="rotate(135)"/>
+    <ellipse cx="-16" cy="9" rx="12" ry="20" fill="#FFB6C1" transform="rotate(180)"/>
+    <ellipse cx="-16" cy="-9" rx="12" ry="20" fill="#FFE4E1" transform="rotate(225)"/>
+    <circle cx="0" cy="0" r="10" fill="#FFD54F"/>
+  </g>
+  
+  <!-- Dragonfly -->
+  <g transform="translate(300, 200)">
+    <ellipse cx="0" cy="0" rx="3" ry="15" fill="#4A148C"/>
+    <ellipse cx="-10" cy="-5" rx="15" ry="5" fill="#00BCD4" opacity="0.6"/>
+    <ellipse cx="10" cy="-5" rx="15" ry="5" fill="#00BCD4" opacity="0.6"/>
+    <ellipse cx="-10" cy="5" rx="15" ry="5" fill="#00ACC1" opacity="0.6"/>
+    <ellipse cx="10" cy="5" rx="15" ry="5" fill="#00ACC1" opacity="0.6"/>
+    <circle cx="0" cy="-8" r="3" fill="#6A1B9A"/>
+  </g>
+</svg>

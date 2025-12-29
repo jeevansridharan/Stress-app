@@ -1,0 +1,41 @@
+<svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mountainSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#64B5F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E1F5FE;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="snowCap" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E3F2FD;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky -->
+  <rect width="800" height="500" fill="url(#mountainSky)"/>
+  
+  <!-- Sun -->
+  <circle cx="650" cy="120" r="50" fill="#FFE082" opacity="0.8"/>
+  
+  <!-- Distant Mountains -->
+  <polygon points="0,400 150,250 300,400" fill="#90A4AE" opacity="0.6"/>
+  <polygon points="250,400 450,200 650,400" fill="#78909C" opacity="0.6"/>
+  
+  <!-- Main Mountains -->
+  <polygon points="0,450 200,150 400,450" fill="#607D8B"/>
+  <polygon points="300,450 500,100 700,450" fill="#546E7A"/>
+  <polygon points="600,450 800,200 800,450" fill="#455A64"/>
+  
+  <!-- Snow caps -->
+  <polygon points="200,150 150,220 250,220" fill="url(#snowCap)"/>
+  <polygon points="500,100 430,200 570,200" fill="url(#snowCap)"/>
+  <polygon points="800,200 750,280 800,280" fill="url(#snowCap)"/>
+  
+  <!-- Ground/Valley -->
+  <rect y="450" width="800" height="50" fill="#8BC34A" opacity="0.7"/>
+  
+  <!-- Small clouds -->
+  <ellipse cx="100" cy="100" rx="40" ry="25" fill="white" opacity="0.7"/>
+  <ellipse cx="130" cy="105" rx="35" ry="20" fill="white" opacity="0.7"/>
+  <ellipse cx="400" cy="80" rx="50" ry="30" fill="white" opacity="0.7"/>
+  <ellipse cx="440" cy="85" rx="45" ry="25" fill="white" opacity="0.7"/>
+</svg>

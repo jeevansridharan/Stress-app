@@ -70,52 +70,141 @@
 
     <!-- Result Page -->
     <div id="resultPage" class="page">
-        <div class="container">
-            <h1>Your Stress Level</h1>
-            
-            <div id="stressResult" class="stress-result"></div>
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1>🧘 Wellness Dashboard</h1>
+            <div id="stressLevelBadge" class="stress-badge">Loading...</div>
+        </div>
 
-            <div id="personalizedSuggestions" class="personalized-suggestions" style="display: none;"></div>
+        <div class="container dashboard-container">
+            <!-- Main Result Card -->
+            <div class="dashboard-card main-result-card">
+                <h2>Your Stress Assessment</h2>
+                <div id="stressResult" class="stress-result"></div>
+            </div>
 
-            <div id="reliefSection" class="relief-section" style="display: none;">
-                <h2>Quick Stress Relief</h2>
-                
-                <div class="breathing-exercise">
-                    <h3>🌬️ Breathing Exercise</h3>
-                    <p class="breathing-instruction">Select duration and click start</p>
-                    
-                    <div class="timer-controls">
-                        <button onclick="startBreathing(2)" class="timer-btn">2 Minutes</button>
-                        <button onclick="startBreathing(3)" class="timer-btn">3 Minutes</button>
-                        <button onclick="startBreathing(5)" class="timer-btn">5 Minutes</button>
+            <!-- Interactive Feature Cards -->
+            <div class="features-grid">
+                <!-- Breathing Exercise Card -->
+                <div class="dashboard-card feature-card">
+                    <div class="card-icon">🌬️</div>
+                    <h3>Breathing Exercise</h3>
+                    <p>Follow guided breathing patterns</p>
+                    <button onclick="openBreathingModal()" class="dashboard-btn primary-btn">
+                        Start Exercise
+                    </button>
+                </div>
+
+                <!-- Music Card -->
+                <div class="dashboard-card feature-card">
+                    <div class="card-icon">🎵</div>
+                    <h3>Calming Music</h3>
+                    <p>Listen to relaxing sounds</p>
+                    <button id="musicToggleBtn" onclick="toggleMusic()" class="dashboard-btn primary-btn">
+                        ▶️ Play Music
+                    </button>
+                    <button onclick="nextAudioTrack()" class="dashboard-btn secondary-btn" style="margin-top: 8px;">
+                        ⏭️ Next Track
+                    </button>
+                </div>
+
+                <!-- Visual Relief Card -->
+                <div class="dashboard-card feature-card">
+                    <div class="card-icon">🌿</div>
+                    <h3>Visual Relief</h3>
+                    <p>Calming nature visuals</p>
+                    <button onclick="toggleVisuals()" class="dashboard-btn primary-btn" id="visualToggleBtn">
+                        Show Visuals
+                    </button>
+                </div>
+
+                <!-- Quick Tips Card -->
+                <div class="dashboard-card feature-card">
+                    <div class="card-icon">💡</div>
+                    <h3>Quick Tips</h3>
+                    <p>Personalized advice</p>
+                    <button onclick="toggleTips()" class="dashboard-btn primary-btn" id="tipsToggleBtn">
+                        View Tips
+                    </button>
+                </div>
+            </div>
+
+            <!-- Collapsible Visual Relief Section -->
+            <div id="visualsSection" class="collapsible-section" style="display: none;">
+                <div class="dashboard-card">
+                    <div class="section-header">
+                        <h2>🌿 Visual Relief</h2>
+                        <button onclick="toggleVisuals()" class="close-section-btn">✕</button>
                     </div>
-                    
-                    <div class="breathing-container">
-                        <div id="breathingCircle" class="breathing-circle paused">
-                            <div class="breathing-text">Breathe</div>
+                    <div class="visuals-content">
+                        <img id="reliefImage" src="" alt="Calming visual" class="relief-rotating-image">
+                        <p id="reliefCaption" class="relief-image-caption">Take a deep breath.</p>
+                        <div class="visual-controls">
+                            <button onclick="startImageRotation()" class="dashboard-btn secondary-btn">▶️ Start</button>
+                            <button onclick="stopImageRotation()" class="dashboard-btn secondary-btn">⏸️ Stop</button>
                         </div>
-                        <div id="breathingTimer" class="breathing-timer"></div>
                     </div>
-                    
-                    <button id="stopBreathingBtn" onclick="stopBreathing()" class="stop-btn" style="display: none;">Stop</button>
                 </div>
+            </div>
 
-                <div class="calm-section">
-                    <img src="relaxing-nature.jpg" alt="Relaxing Nature" class="relaxing-image">
-                    <audio id="calmAudio" controls>
-                        <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_4a392a4e55.mp3" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
+            <!-- Collapsible Tips Section -->
+            <div id="tipsSection" class="collapsible-section" style="display: none;">
+                <div class="dashboard-card">
+                    <div class="section-header">
+                        <h2>💡 Personalized Tips</h2>
+                        <button onclick="toggleTips()" class="close-section-btn">✕</button>
+                    </div>
+                    <div id="personalizedSuggestions" class="tips-grid"></div>
                 </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="dashboard-actions">
+                <button onclick="viewHistory()" class="dashboard-btn secondary-btn">📊 View History</button>
+                <button onclick="restart()" class="dashboard-btn secondary-btn">🔄 New Assessment</button>
             </div>
 
             <div class="disclaimer">
-                <p>⚠️ <strong>Disclaimer:</strong> This is not medical advice. If you're experiencing severe stress or mental health issues, please consult a healthcare professional.</p>
+                <p>⚠️ <strong>Disclaimer:</strong> This is not medical advice. If you're experiencing severe stress, please consult a healthcare professional.</p>
             </div>
-
-            <button onclick="viewHistory()" class="btn-secondary">View Stress History</button>
-            <button onclick="restart()" class="btn-secondary">Start Over</button>
         </div>
+
+        <!-- Breathing Exercise Modal -->
+        <div id="breathingModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🌬️ Breathing Exercise</h2>
+                    <button onclick="closeBreathingModal()" class="close-modal-btn">✕</button>
+                </div>
+                <div class="breathing-animation-area">
+                    <div id="breathingCircleModal" class="breathing-circle-modal">
+                        <span id="breathingText" class="breathing-phase-text">Ready</span>
+                    </div>
+                    <p id="breathingInstruction" class="breathing-instruction-text">Click Start to begin</p>
+                </div>
+                <div class="modal-actions">
+                    <button onclick="startBreathingCycle()" id="startBreathingModalBtn" class="dashboard-btn primary-btn">Start</button>
+                    <button onclick="stopBreathingCycle()" id="stopBreathingModalBtn" class="dashboard-btn secondary-btn" style="display: none;">Stop</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden Audio Elements -->
+        <audio id="calmAudio1" loop>
+            <source src="https://www.bensound.com/bensound-music/bensound-relaxing.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="calmAudio2" loop>
+            <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="calmAudio3" loop>
+            <source src="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="calmAudio4" loop>
+            <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="calmAudio5" loop>
+            <source src="https://www.bensound.com/bensound-music/bensound-pianomoment.mp3" type="audio/mpeg">
+        </audio>
     </div>
 
     <!-- History Page -->
