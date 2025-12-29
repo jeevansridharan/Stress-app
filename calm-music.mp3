@@ -1,0 +1,22 @@
+<!-- 
+This is a placeholder for calm-music.mp3
+Since we cannot generate actual MP3 files, you have two options:
+
+OPTION 1 - Use a free calm music file:
+Download a free calm/relaxing audio from:
+- https://pixabay.com/music/search/calm/
+- https://freesound.org/
+- https://incompetech.com/music/royalty-free/music.html
+
+Save it as "calm-music.mp3" in this folder.
+
+OPTION 2 - Use online audio URL:
+Edit index.html and replace the audio source with an online URL like:
+https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3
+
+OPTION 3 - Remove audio feature:
+If you don't want audio, simply remove the audio element from index.html
+
+For now, the app will work but the audio player will show as unavailable.
+To test without audio, you can comment out the audio section in index.html.
+-->

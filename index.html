@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Stress Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Start Page -->
+    <div id="startPage" class="page active">
+        <div class="container">
+            <h1>Student Stress Analyzer</h1>
+            <p class="subtitle">Anonymous and Simple Stress Assessment</p>
+            <button onclick="showInputPage()" class="btn-primary">Start</button>
+        </div>
+    </div>
+
+    <!-- Input Page -->
+    <div id="inputPage" class="page">
+        <div class="container">
+            <h1>How are you feeling?</h1>
+            
+            <div class="form-section">
+                <label class="form-label">Select your mood:</label>
+                <div class="mood-options">
+                    <button onclick="selectMood('low')" id="moodLow" class="mood-btn">😊 Low Stress</button>
+                    <button onclick="selectMood('medium')" id="moodMedium" class="mood-btn">😐 Medium Stress</button>
+                    <button onclick="selectMood('high')" id="moodHigh" class="mood-btn">😰 High Stress</button>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">Answer these questions:</label>
+                
+                <div class="question">
+                    <p>Are exams stressing you?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="q1" value="yes"> Yes</label>
+                        <label><input type="radio" name="q1" value="no"> No</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>Are you feeling overwhelmed?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="q2" value="yes"> Yes</label>
+                        <label><input type="radio" name="q2" value="no"> No</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>Are you getting enough sleep?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="q3" value="yes"> Yes</label>
+                        <label><input type="radio" name="q3" value="no"> No</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">How are you feeling today? (Optional)</label>
+                <textarea id="feelings" rows="4" placeholder="Share your thoughts..."></textarea>
+            </div>
+
+            <button onclick="analyzeStress()" class="btn-primary">Analyze My Stress</button>
+        </div>
+    </div>
+
+    <!-- Result Page -->
+    <div id="resultPage" class="page">
+        <div class="container">
+            <h1>Your Stress Level</h1>
+            
+            <div id="stressResult" class="stress-result"></div>
+
+            <div id="personalizedSuggestions" class="personalized-suggestions" style="display: none;"></div>
+
+            <div id="reliefSection" class="relief-section" style="display: none;">
+                <h2>Quick Stress Relief</h2>
+                
+                <div class="breathing-exercise">
+                    <h3>🌬️ Breathing Exercise</h3>
+                    <p class="breathing-instruction">Select duration and click start</p>
+                    
+                    <div class="timer-controls">
+                        <button onclick="startBreathing(2)" class="timer-btn">2 Minutes</button>
+                        <button onclick="startBreathing(3)" class="timer-btn">3 Minutes</button>
+                        <button onclick="startBreathing(5)" class="timer-btn">5 Minutes</button>
+                    </div>
+                    
+                    <div class="breathing-container">
+                        <div id="breathingCircle" class="breathing-circle paused">
+                            <div class="breathing-text">Breathe</div>
+                        </div>
+                        <div id="breathingTimer" class="breathing-timer"></div>
+                    </div>
+                    
+                    <button id="stopBreathingBtn" onclick="stopBreathing()" class="stop-btn" style="display: none;">Stop</button>
+                </div>
+
+                <div class="calm-section">
+                    <img src="relaxing-nature.jpg" alt="Relaxing Nature" class="relaxing-image">
+                    <audio id="calmAudio" controls>
+                        <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_4a392a4e55.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                <p>⚠️ <strong>Disclaimer:</strong> This is not medical advice. If you're experiencing severe stress or mental health issues, please consult a healthcare professional.</p>
+            </div>
+
+            <button onclick="viewHistory()" class="btn-secondary">View Stress History</button>
+            <button onclick="restart()" class="btn-secondary">Start Over</button>
+        </div>
+    </div>
+
+    <!-- History Page -->
+    <div id="historyPage" class="page">
+        <div class="container">
+            <h1>Your Stress History</h1>
+            
+            <div class="history-section">
+                <h2>Weekly Stress Trend</h2>
+                <canvas id="stressChart"></canvas>
+                <p class="history-info" id="historyInfo"></p>
+            </div>
+
+            <button onclick="backToResult()" class="btn-secondary">Back to Result</button>
+            <button onclick="restart()" class="btn-secondary">New Assessment</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

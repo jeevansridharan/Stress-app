@@ -1,0 +1,41 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sky gradient background -->
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0F6FF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4DA6D6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2E8BB8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky -->
+  <rect width="800" height="250" fill="url(#skyGradient)"/>
+  
+  <!-- Sun -->
+  <circle cx="650" cy="80" r="50" fill="#FFD700" opacity="0.8"/>
+  
+  <!-- Water -->
+  <rect y="250" width="800" height="150" fill="url(#waterGradient)"/>
+  
+  <!-- Mountains -->
+  <polygon points="0,250 150,120 300,250" fill="#6B8E23" opacity="0.7"/>
+  <polygon points="200,250 400,80 600,250" fill="#556B2F" opacity="0.7"/>
+  <polygon points="500,250 700,150 800,250" fill="#6B8E23" opacity="0.7"/>
+  
+  <!-- Clouds -->
+  <ellipse cx="150" cy="100" rx="50" ry="25" fill="white" opacity="0.8"/>
+  <ellipse cx="180" cy="105" rx="40" ry="20" fill="white" opacity="0.8"/>
+  <ellipse cx="400" cy="60" rx="60" ry="30" fill="white" opacity="0.8"/>
+  <ellipse cx="440" cy="65" rx="50" ry="25" fill="white" opacity="0.8"/>
+  
+  <!-- Water reflection -->
+  <ellipse cx="650" cy="270" rx="40" ry="10" fill="#FFD700" opacity="0.3"/>
+  
+  <!-- Text -->
+  <text x="400" y="350" font-family="Arial, sans-serif" font-size="28" fill="white" text-anchor="middle" font-weight="bold">
+    Take a deep breath and relax
+  </text>
+</svg>
