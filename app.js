@@ -219,6 +219,9 @@ function showResult(stressLevel) {
         badge.classList.add('badge-high');
     }
     
+    // Show overview section by default
+    showSection('overview');
+    
     // Always show personalized suggestions for medium/high stress
     if (stressLevel !== 'low') {
         showPersonalizedSuggestions();
@@ -226,17 +229,91 @@ function showResult(stressLevel) {
 }
 
 /* ============================================
+   SIDEBAR NAVIGATION
+   ============================================ */
+
+/**
+ * Show a specific section and hide others
+ * @param {string} sectionName - Name of the section to show (overview, breathing, music, visuals, tips)
+ */
+function showSection(sectionName) {
+    // Hide all content sections
+    const sections = document.querySelectorAll('.content-section');
+    sections.forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Remove active class from all nav items
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    // Show the selected section
+    const sectionMap = {
+        'overview': 'overviewSection',
+        'breathing': 'breathingSection',
+        'music': 'musicSection',
+        'visuals': 'visualsSection',
+        'tips': 'tipsSection'
+    };
+    
+    const sectionId = sectionMap[sectionName];
+    if (sectionId) {
+        document.getElementById(sectionId).classList.add('active');
+    }
+    
+    // Highlight the active nav item
+    const activeButton = Array.from(navItems).find(btn => 
+        btn.textContent.includes(getNavTextForSection(sectionName))
+    );
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
+    
+    // Special handling for visuals section - start images if not already started
+    if (sectionName === 'visuals') {
+        const imageContent = document.getElementById('imageContentArea');
+        if (imageContent && imageContent.style.display === 'none') {
+            // Don't auto-start, just make it available
+        }
+    }
+    
+    // Special handling for tips section - load tips if needed
+    if (sectionName === 'tips' && currentStressData) {
+        showPersonalizedSuggestions();
+    }
+}
+
+/**
+ * Get navigation text for a section name
+ * @param {string} sectionName - Section name
+ * @returns {string} Navigation text
+ */
+function getNavTextForSection(sectionName) {
+    const textMap = {
+        'overview': 'Stress Overview',
+        'breathing': 'Breathing Exercise',
+        'music': 'Calming Music',
+        'visuals': 'Visual Relief',
+        'tips': 'Quick Tips'
+    };
+    return textMap[sectionName] || '';
+}
+
+/* ============================================
    DASHBOARD INTERACTIVE FEATURES
    ============================================ */
 
-// Breathing Modal - Open/Close
+// Legacy function for backward compatibility - not used with sidebar
 function openBreathingModal() {
-    document.getElementById('breathingModal').style.display = 'flex';
+    // In sidebar mode, navigate to breathing section instead
+    showSection('breathing');
 }
 
+// Legacy function for backward compatibility - not used with sidebar
 function closeBreathingModal() {
-    stopBreathingCycle();
-    document.getElementById('breathingModal').style.display = 'none';
+    // Not needed in sidebar mode
 }
 
 // Breathing Animation Variables
@@ -253,9 +330,11 @@ function startBreathingCycle() {
     const startBtn = document.getElementById('startBreathingModalBtn');
     const stopBtn = document.getElementById('stopBreathingModalBtn');
     
+    if (!circle || !text || !instruction) return; // Safety check
+    
     // Toggle buttons
-    startBtn.style.display = 'none';
-    stopBtn.style.display = 'inline-block';
+    if (startBtn) startBtn.style.display = 'none';
+    if (stopBtn) stopBtn.style.display = 'inline-block';
     
     breathingPhase = 0;
     
@@ -337,6 +416,7 @@ const audioTracks = [
 function toggleMusic() {
     const currentAudio = document.getElementById(audioTracks[currentAudioIndex].id);
     const btn = document.getElementById('musicToggleBtn');
+    const trackName = document.getElementById('currentTrackName');
     
     if (isMusicPlaying) {
         currentAudio.pause();
@@ -345,8 +425,11 @@ function toggleMusic() {
         isMusicPlaying = false;
     } else {
         currentAudio.play();
-        btn.textContent = `⏸️ ${audioTracks[currentAudioIndex].name}`;
+        btn.textContent = '⏸️ Pause Music';
         btn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+        if (trackName) {
+            trackName.textContent = audioTracks[currentAudioIndex].name;
+        }
         isMusicPlaying = true;
     }
 }
@@ -367,48 +450,25 @@ function nextAudioTrack() {
     
     // Update button text
     const btn = document.getElementById('musicToggleBtn');
+    const trackName = document.getElementById('currentTrackName');
+    
     if (wasPlaying) {
         const nextAudio = document.getElementById(audioTracks[currentAudioIndex].id);
         nextAudio.play();
-        btn.textContent = `⏸️ ${audioTracks[currentAudioIndex].name}`;
+        btn.textContent = '⏸️ Pause Music';
+        btn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+        if (trackName) {
+            trackName.textContent = audioTracks[currentAudioIndex].name;
+        }
     } else {
         btn.textContent = '▶️ Play Music';
+        if (trackName) {
+            trackName.textContent = audioTracks[currentAudioIndex].name;
+        }
     }
 }
-        btn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
-        isMusicPlaying = true;
     
 
-
-// Visual Relief Toggle
-function toggleVisuals() {
-    const section = document.getElementById('visualsSection');
-    const btn = document.getElementById('visualToggleBtn');
-    
-    if (section.style.display === 'none') {
-        section.style.display = 'block';
-        btn.textContent = 'Hide Visuals';
-        displayReliefImage(); // Show first image
-    } else {
-        section.style.display = 'none';
-        btn.textContent = 'Show Visuals';
-        stopImageRotation();
-    }
-}
-
-// Tips Toggle
-function toggleTips() {
-    const section = document.getElementById('tipsSection');
-    const btn = document.getElementById('tipsToggleBtn');
-    
-    if (section.style.display === 'none') {
-        section.style.display = 'block';
-        btn.textContent = 'Hide Tips';
-    } else {
-        section.style.display = 'none';
-        btn.textContent = 'View Tips';
-    }
-}
 
 // Start image rotation for stress relief
 function startImageRotation() {
@@ -677,11 +737,13 @@ function restart() {
     
     stopBreathingCycle();
     stopImageRotation();
-    closeBreathingModal();
     
-    // Reset UI
-    document.getElementById('visualsSection').style.display = 'none';
-    document.getElementById('tipsSection').style.display = 'none';
+    // Reset music button
+    const musicBtn = document.getElementById('musicToggleBtn');
+    if (musicBtn) {
+        musicBtn.textContent = '▶️ Play Music';
+        musicBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+    }
     
     // Go back to start page
     document.getElementById('resultPage').classList.remove('active');

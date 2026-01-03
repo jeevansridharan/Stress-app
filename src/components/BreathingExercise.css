@@ -1,0 +1,160 @@
+/* Breathing Exercise Styles */
+.breathing-exercise {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.breathing-exercise h2 {
+  color: #2d3748;
+  margin-bottom: 16px;
+  font-size: 2em;
+}
+
+.breathing-exercise .description {
+  color: #718096;
+  margin-bottom: 40px;
+  font-size: 1.1em;
+}
+
+.breathing-circle {
+  width: 280px;
+  height: 280px;
+  margin: 40px auto;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+  position: relative;
+}
+
+.breathing-circle.inhale {
+  animation: breatheIn 4s ease-in-out;
+}
+
+.breathing-circle.hold {
+  animation: breatheHold 7s ease-in-out;
+}
+
+.breathing-circle.exhale {
+  animation: breatheOut 8s ease-in-out;
+}
+
+@keyframes breatheIn {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes breatheHold {
+  0%, 100% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes breatheOut {
+  0% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.breathing-text {
+  text-align: center;
+  color: white;
+}
+
+.phase-text {
+  font-size: 1.6em;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.seconds {
+  font-size: 3.5em;
+  font-weight: bold;
+}
+
+.control-btn {
+  display: block;
+  margin: 0 auto 40px;
+  padding: 16px 48px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.control-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.benefits {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.benefits h3 {
+  color: #2d3748;
+  margin-bottom: 16px;
+  font-size: 1.4em;
+}
+
+.benefits ul {
+  list-style: none;
+  padding: 0;
+}
+
+.benefits li {
+  padding: 12px 0;
+  color: #4a5568;
+  font-size: 1.05em;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.benefits li:last-child {
+  border-bottom: none;
+}
+
+.benefits li::before {
+  content: "✓";
+  color: #48bb78;
+  font-weight: bold;
+  margin-right: 12px;
+  font-size: 1.2em;
+}
+
+@media (max-width: 768px) {
+  .breathing-circle {
+    width: 220px;
+    height: 220px;
+  }
+
+  .phase-text {
+    font-size: 1.3em;
+  }
+
+  .seconds {
+    font-size: 2.8em;
+  }
+
+  .benefits {
+    padding: 24px;
+  }
+}

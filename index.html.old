@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Stress Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Start Page -->
+    <div id="startPage" class="page active">
+        <div class="container">
+            <h1>Student Stress Analyzer</h1>
+            <p class="subtitle">Anonymous and Simple Stress Assessment</p>
+            <button onclick="showInputPage()" class="btn-primary">Start</button>
+        </div>
+    </div>
+
+    <!-- Input Page -->
+    <div id="inputPage" class="page">
+        <div class="container">
+            <h1>How are you feeling?</h1>
+            
+            <div class="form-section">
+                <label class="form-label">Select your mood:</label>
+                <div class="mood-options">
+                    <button onclick="selectMood('low')" id="moodLow" class="mood-btn">😊 Low Stress</button>
+                    <button onclick="selectMood('medium')" id="moodMedium" class="mood-btn">😐 Medium Stress</button>
+                    <button onclick="selectMood('high')" id="moodHigh" class="mood-btn">😰 High Stress</button>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">Answer these questions:</label>
+                
+                <div class="question">
+                    <p>Are exams stressing you?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="q1" value="yes"> Yes</label>
+                        <label><input type="radio" name="q1" value="no"> No</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>Are you feeling overwhelmed?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="q2" value="yes"> Yes</label>
+                        <label><input type="radio" name="q2" value="no"> No</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>Are you getting enough sleep?</p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="q3" value="yes"> Yes</label>
+                        <label><input type="radio" name="q3" value="no"> No</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">How are you feeling today? (Optional)</label>
+                <textarea id="feelings" rows="4" placeholder="Share your thoughts..."></textarea>
+            </div>
+
+            <button onclick="analyzeStress()" class="btn-primary">Analyze My Stress</button>
+        </div>
+    </div>
+
+    <!-- Result Page -->
+    <div id="resultPage" class="page">
+        <!-- Dashboard Layout with Sidebar -->
+        <div class="dashboard-layout">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h2>🧘 Dashboard</h2>
+                    <div id="stressLevelBadge" class="stress-badge">Loading...</div>
+                </div>
+                <nav class="sidebar-nav">
+                    <button class="nav-item active" onclick="showSection('overview')">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">Stress Overview</span>
+                    </button>
+                    <button class="nav-item" onclick="showSection('breathing')">
+                        <span class="nav-icon">🌬️</span>
+                        <span class="nav-text">Breathing Exercise</span>
+                    </button>
+                    <button class="nav-item" onclick="showSection('music')">
+                        <span class="nav-icon">🎵</span>
+                        <span class="nav-text">Calming Music</span>
+                    </button>
+                    <button class="nav-item" onclick="showSection('visuals')">
+                        <span class="nav-icon">🌿</span>
+                        <span class="nav-text">Visual Relief</span>
+                    </button>
+                    <button class="nav-item" onclick="showSection('tips')">
+                        <span class="nav-icon">💡</span>
+                        <span class="nav-text">Quick Tips</span>
+                    </button>
+                </nav>
+                <div class="sidebar-footer">
+                    <button onclick="viewHistory()" class="sidebar-btn">📊 History</button>
+                    <button onclick="restart()" class="sidebar-btn">🔄 New Test</button>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="main-content">
+                <!-- Stress Overview Section -->
+                <div id="overviewSection" class="content-section active">
+                    <h1>Your Stress Assessment</h1>
+                    <div id="stressResult" class="stress-result"></div>
+                    
+                    <div class="overview-cards">
+                        <div class="overview-card">
+                            <div class="card-icon">🌬️</div>
+                            <h3>Breathing Exercise</h3>
+                            <p>Practice guided breathing patterns to calm your mind</p>
+                        </div>
+                        <div class="overview-card">
+                            <div class="card-icon">🎵</div>
+                            <h3>Calming Music</h3>
+                            <p>Listen to soothing sounds and relaxing melodies</p>
+                        </div>
+                        <div class="overview-card">
+                            <div class="card-icon">🌿</div>
+                            <h3>Visual Relief</h3>
+                            <p>View peaceful nature scenes and calming visuals</p>
+                        </div>
+                        <div class="overview-card">
+                            <div class="card-icon">💡</div>
+                            <h3>Quick Tips</h3>
+                            <p>Get personalized advice based on your stress level</p>
+                        </div>
+                    </div>
+                    
+                    <div class="disclaimer">
+                        <p>⚠️ <strong>Disclaimer:</strong> This is not medical advice. If you're experiencing severe stress, please consult a healthcare professional.</p>
+                    </div>
+                </div>
+
+                <!-- Breathing Exercise Section -->
+                <div id="breathingSection" class="content-section">
+                    <h1>🌬️ Breathing Exercise</h1>
+                    <p class="section-intro">Follow the guided breathing animation to reduce stress and anxiety.</p>
+                    
+                    <div class="breathing-animation-area">
+                        <div id="breathingCircleModal" class="breathing-circle-modal">
+                            <span id="breathingText" class="breathing-phase-text">Ready</span>
+                        </div>
+                        <p id="breathingInstruction" class="breathing-instruction-text">Click Start to begin</p>
+                    </div>
+                    
+                    <div class="breathing-controls">
+                        <button onclick="startBreathingCycle()" id="startBreathingModalBtn" class="dashboard-btn primary-btn">Start Exercise</button>
+                        <button onclick="stopBreathingCycle()" id="stopBreathingModalBtn" class="dashboard-btn secondary-btn" style="display: none;">Stop Exercise</button>
+                    </div>
+                </div>
+
+                <!-- Music Section -->
+                <div id="musicSection" class="content-section">
+                    <h1>🎵 Calming Music</h1>
+                    <p class="section-intro">Listen to relaxing sounds to help you unwind and de-stress.</p>
+                    
+                    <div class="music-player">
+                        <div class="music-info">
+                            <p>Current Track: <span id="currentTrackName">Relaxing Melody</span></p>
+                        </div>
+                        <div class="music-controls">
+                            <button id="musicToggleBtn" onclick="toggleMusic()" class="dashboard-btn primary-btn large-btn">
+                                ▶️ Play Music
+                            </button>
+                            <button onclick="nextAudioTrack()" class="dashboard-btn secondary-btn large-btn">
+                                ⏭️ Next Track
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual Relief Section -->
+                <div id="visualsSection" class="content-section">
+                    <h1>🌿 Visual Relief</h1>
+                    <p class="section-intro">View calming nature images to relax your mind.</p>
+                    
+                    <div class="visuals-content">
+                        <div id="imageContentArea" style="display: none;">
+                            <img id="reliefImage" src="" alt="Calming visual" class="relief-rotating-image">
+                            <p id="reliefCaption" class="relief-image-caption">Take a deep breath.</p>
+                            <p id="imageCounter" style="text-align: center; color: #666; font-size: 14px; margin: 10px 0;">Image 1 of 20</p>
+                        </div>
+                        <div class="visual-controls">
+                            <button onclick="startImageRotation()" id="startImagesBtn" class="dashboard-btn primary-btn">▶️ Auto Play</button>
+                            <button onclick="stopImageRotation()" id="stopImagesBtn" class="dashboard-btn secondary-btn" style="display: none;">⏸️ Stop Auto</button>
+                            <button onclick="previousImage()" class="dashboard-btn secondary-btn">◀️ Previous</button>
+                            <button onclick="nextImage()" class="dashboard-btn secondary-btn">Next ▶️</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tips Section -->
+                <div id="tipsSection" class="content-section">
+                    <h1>💡 Quick Tips</h1>
+                    <p class="section-intro">Personalized advice to help manage your stress.</p>
+                    <div id="personalizedSuggestions" class="tips-grid"></div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Old content removed (kept for backward compatibility in JS, but hidden) -->
+        <div class="container dashboard-container" style="display: none;">
+        <!-- Old content removed (kept for backward compatibility in JS, but hidden) -->
+        <div class="container dashboard-container" style="display: none;">
+            <!-- Main Result Card -->
+            <div class="dashboard-card main-result-card">
+                <h2>Your Stress Assessment</h2>
+                <div id="stressResultOld" class="stress-result"></div>
+            </div>
+
+            <!-- Interactive Feature Cards -->
+            <div class="features-grid">
+                <!-- Breathing Exercise Card -->
+                <div class="dashboard-card feature-card">
+                    <div class="card-icon">🌬️</div>
+                    <h3>Breathing Exercise</h3>
+                    <p>Follow guided breathing patterns</p>
+                    <button onclick="openBreathingModal()" class="dashboard-btn primary-btn">
+                        Start Exercise
+                    </button>
+                </div>
+
+                <!-- Music Card -->
+                <div class="dashboard-card feature-card">
+                    <div class="card-icon">🎵</div>
+                    <h3>Calming Music</h3>
+                    <p>Listen to relaxing sounds</p>
+                    <button id="musicToggleBtnOld" onclick="toggleMusic()" class="dashboard-btn primary-btn">
+                        ▶️ Play Music
+                    </button>
+                    <button onclick="nextAudioTrack()" class="dashboard-btn secondary-btn" style="margin-top: 8px;">
+                        ⏭️ Next Track
+                    </button>
+                </div>
+
+                <!-- Visual Relief Card -->
+                <div class="dashboard-card feature-card">
+                    <div class="card-icon">🌿</div>
+                    <h3>Visual Relief</h3>
+                    <p>Calming nature visuals</p>
+                    <button onclick="toggleVisualsOld()" class="dashboard-btn primary-btn" id="visualToggleBtnOld">
+                        Show Visuals
+                    </button>
+                </div>
+
+                <!-- Quick Tips Card -->
+                <div class="dashboard-card feature-card">
+                    <div class="card-icon">💡</div>
+                    <h3>Quick Tips</h3>
+                    <p>Personalized advice</p>
+                    <button onclick="toggleTipsOld()" class="dashboard-btn primary-btn" id="tipsToggleBtnOld">
+                        View Tips
+                    </button>
+                </div>
+            </div>
+
+            <!-- Collapsible Visual Relief Section -->
+            <div id="visualsSectionOld" class="collapsible-section" style="display: none;">
+                <div class="dashboard-card">
+                    <div class="section-header">
+                        <h2>🌿 Visual Relief</h2>
+                        <button onclick="toggleVisualsOld()" class="close-section-btn">✕</button>
+                    </div>
+                    <div class="visuals-content">
+                        <div id="imageContentAreaOld" style="display: none;">
+                            <img id="reliefImageOld" src="" alt="Calming visual" class="relief-rotating-image">
+                            <p id="reliefCaptionOld" class="relief-image-caption">Take a deep breath.</p>
+                            <p id="imageCounterOld" style="text-align: center; color: #666; font-size: 14px; margin: 10px 0;">Image 1 of 20</p>
+                        </div>
+                        <div class="visual-controls">
+                            <button onclick="startImageRotation()" id="startImagesBtnOld" class="dashboard-btn secondary-btn">▶️ Auto Play</button>
+                            <button onclick="stopImageRotation()" id="stopImagesBtnOld" class="dashboard-btn secondary-btn" style="display: none;">⏸️ Stop Auto</button>
+                            <button onclick="previousImage()" class="dashboard-btn secondary-btn">◀️ Previous</button>
+                            <button onclick="nextImage()" class="dashboard-btn secondary-btn">Next ▶️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collapsible Tips Section -->
+            <div id="tipsSectionOld" class="collapsible-section" style="display: none;">
+                <div class="dashboard-card">
+                    <div class="section-header">
+                        <h2>💡 Personalized Tips</h2>
+                        <button onclick="toggleTipsOld()" class="close-section-btn">✕</button>
+                    </div>
+                    <div id="personalizedSuggestionsOld" class="tips-grid"></div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="dashboard-actions">
+                <button onclick="viewHistory()" class="dashboard-btn secondary-btn">📊 View History</button>
+                <button onclick="restart()" class="dashboard-btn secondary-btn">🔄 New Assessment</button>
+            </div>
+
+            <div class="disclaimer">
+                <p>⚠️ <strong>Disclaimer:</strong> This is not medical advice. If you're experiencing severe stress, please consult a healthcare professional.</p>
+            </div>
+        </div>
+
+        <!-- Breathing Exercise Modal (kept for compatibility but not used) -->
+        <div id="breathingModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🌬️ Breathing Exercise</h2>
+                    <button onclick="closeBreathingModal()" class="close-modal-btn">✕</button>
+                </div>
+                <div class="breathing-animation-area">
+                    <div id="breathingCircleModalOld" class="breathing-circle-modal">
+                        <span id="breathingTextOld" class="breathing-phase-text">Ready</span>
+                    </div>
+                    <p id="breathingInstructionOld" class="breathing-instruction-text">Click Start to begin</p>
+                </div>
+                <div class="modal-actions">
+                    <button onclick="startBreathingCycle()" id="startBreathingModalBtnOld" class="dashboard-btn primary-btn">Start</button>
+                    <button onclick="stopBreathingCycle()" id="stopBreathingModalBtnOld" class="dashboard-btn secondary-btn" style="display: none;">Stop</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden Audio Elements -->
+        <audio id="calmAudio1" loop>
+            <source src="https://www.bensound.com/bensound-music/bensound-relaxing.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="calmAudio2" loop>
+            <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="calmAudio3" loop>
+            <source src="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="calmAudio4" loop>
+            <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="calmAudio5" loop>
+            <source src="https://www.bensound.com/bensound-music/bensound-pianomoment.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <!-- History Page -->
+    <div id="historyPage" class="page">
+        <div class="container">
+            <h1>Your Stress History</h1>
+            
+            <div class="history-section">
+                <h2>Weekly Stress Trend</h2>
+                <canvas id="stressChart"></canvas>
+                <p class="history-info" id="historyInfo"></p>
+            </div>
+
+            <button onclick="backToResult()" class="btn-secondary">Back to Result</button>
+            <button onclick="restart()" class="btn-secondary">New Assessment</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
